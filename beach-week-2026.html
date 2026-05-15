@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Beach Week 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #5B2D8E;
+    --purple-light: #7B4DB5;
+    --purple-dark: #3D1A6E;
+    --black: #111111;
+    --white: #F5F5F5;
+    --gray: #1E1E1E;
+    --gray-mid: #2E2E2E;
+    --gray-border: #3A3A3A;
+    --gray-light: #888;
+    --success: #4CAF50;
+    --text: #EEEEEE;
+    --text-muted: #999;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--purple-dark);
+    border-bottom: 3px solid var(--purple-light);
+    padding: 18px 16px 14px;
+    text-align: center;
+    position: relative;
+  }
+  header .eagle {
+    font-size: 28px;
+    line-height: 1;
+  }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.6rem;
+    letter-spacing: 3px;
+    color: var(--white);
+    line-height: 1;
+    margin: 4px 0 2px;
+  }
+  header .subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    color: var(--purple-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  header .meta {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    background: var(--gray);
+    border-bottom: 2px solid var(--gray-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 13px 8px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    color: var(--white);
+    border-bottom-color: var(--purple-light);
+    background: var(--gray-mid);
+  }
+
+  /* SECTIONS */
+  .section { display: none; padding: 16px; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--gray);
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--gray-mid);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .emoji { font-size: 1.3rem; }
+  .date-badge {
+    font-size: 0.75rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--purple-light);
+    background: var(--purple-dark);
+    border: 1px solid var(--purple);
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .date-badge.tbd { color: var(--text-muted); background: var(--gray); border-color: var(--gray-border); }
+
+  /* ITEMS LIST */
+  .items-list { padding: 10px 14px; }
+  .item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-border);
+    gap: 8px;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-name {
+    font-size: 0.9rem;
+    color: var(--text);
+    flex: 1;
+  }
+  .item-name.claimed {
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+  .claimer-name {
+    font-size: 0.75rem;
+    color: var(--success);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .claim-btn {
+    background: var(--purple);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-size: 0.78rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .claim-btn:hover { background: var(--purple-light); }
+  .claim-btn.claimed-btn {
+    background: var(--gray-mid);
+    color: var(--text-muted);
+    border: 1px solid var(--gray-border);
+    cursor: default;
+  }
+
+  /* ADD ITEM */
+  .add-item-row {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--gray-border);
+    background: var(--gray-mid);
+  }
+  .add-item-row input {
+    flex: 1;
+    background: var(--black);
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    padding: 7px 10px;
+    outline: none;
+  }
+  .add-item-row input:focus { border-color: var(--purple-light); }
+  .add-item-row button {
+    background: var(--purple-dark);
+    border: 1px solid var(--purple);
+    color: var(--white);
+    border-radius: 4px;
+    padding: 7px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  /* ADD MEAL */
+  .add-meal-card {
+    background: var(--gray);
+    border: 1px dashed var(--gray-border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  .add-meal-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .add-meal-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .add-meal-row input, .add-meal-row select {
+    flex: 1;
+    min-width: 120px;
+    background: var(--black);
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+    outline: none;
+  }
+  .add-meal-row input:focus, .add-meal-row select:focus { border-color: var(--purple-light); }
+  .add-meal-row select option { background: var(--black); }
+  .add-meal-row button {
+    background: var(--purple);
+    border: none;
+    color: var(--white);
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+
+  /* CONTRIBUTORS */
+  .contributor-card {
+    background: var(--gray);
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  .contributor-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  .contributor-list { margin-bottom: 14px; }
+  .contributor-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-border);
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .contributor-row:last-child { border-bottom: none; }
+  .contributor-name { font-weight: 600; font-size: 0.9rem; }
+  .contributor-role {
+    font-size: 0.75rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .role-donate { background: #1a3a1a; color: #6fcf6f; border: 1px solid #2a5a2a; }
+  .role-sponsor { background: #1a1a3a; color: #6f9fcf; border: 1px solid #2a2a5a; }
+  .role-bring { background: #3a1a3a; color: #cf6fcf; border: 1px solid #5a2a5a; }
+
+  .add-contributor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .add-contributor input, .add-contributor select {
+    background: var(--black);
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+    outline: none;
+    width: 100%;
+  }
+  .add-contributor input:focus, .add-contributor select:focus { border-color: var(--purple-light); }
+  .add-contributor select option { background: var(--black); }
+  .add-contributor button {
+    background: var(--purple);
+    border: none;
+    color: var(--white);
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    width: 100%;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--gray);
+    border: 1px solid var(--purple);
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 340px;
+  }
+  .modal h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .modal input {
+    width: 100%;
+    background: var(--black);
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    padding: 10px 12px;
+    outline: none;
+    margin-bottom: 12px;
+  }
+  .modal input:focus { border-color: var(--purple-light); }
+  .modal-btns { display: flex; gap: 8px; }
+  .modal-btns button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.5px;
+  }
+  .modal-btns .btn-confirm { background: var(--purple); color: var(--white); }
+  .modal-btns .btn-cancel { background: var(--gray-mid); color: var(--text-muted); border: 1px solid var(--gray-border); }
+
+  /* DATE MODAL */
+  .date-modal input[type="date"] {
+    color-scheme: dark;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--purple-light);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gray-border);
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 20px;
+    font-style: italic;
+  }
+
+  .info-banner {
+    background: var(--purple-dark);
+    border: 1px solid var(--purple);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    color: var(--purple-light);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .delete-meal-btn {
+    background: none;
+    border: none;
+    color: var(--gray-light);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 2px 4px;
+    line-height: 1;
+  }
+  .delete-meal-btn:hover { color: #e55; }
+
+  @media (max-width: 400px) {
+    header h1 { font-size: 2rem; }
+    .tab-btn { font-size: 0.8rem; padding: 11px 4px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eagle">🦅</div>
+  <h1>Beach Week 2026</h1>
+  <div class="subtitle">June 6 – June 12 &nbsp;·&nbsp; Gonzaga Eagles</div>
+  <div class="meta">14 Boys &nbsp;·&nbsp; OBX &nbsp;·&nbsp; Let's Eat</div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('meals')">🍽 Meals</button>
+  <button class="tab-btn" onclick="showTab('supplies')">🛒 Supplies</button>
+  <button class="tab-btn" onclick="showTab('crew')">👥 Crew</button>
+</div>
+
+<!-- MEALS TAB -->
+<div id="tab-meals" class="section active">
+  <div class="info-banner">
+    📌 Tap a meal's date badge to assign a date. Add items to any meal and claim what you're bringing.
+  </div>
+  <div class="section-title">Meal Plan</div>
+  <div id="meals-list"></div>
+
+  <div class="add-meal-card">
+    <h3>+ Add a Meal</h3>
+    <div class="add-meal-row">
+      <input type="text" id="new-meal-name" placeholder="e.g. Taco Night 🌮">
+      <button onclick="addMeal()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUPPLIES TAB -->
+<div id="tab-supplies" class="section">
+  <div class="info-banner">
+    🧂 General supplies not tied to a specific meal. Claim items you'll bring so nothing gets doubled up.
+  </div>
+  <div class="section-title">General Supplies</div>
+  <div id="supplies-list"></div>
+</div>
+
+<!-- CREW TAB -->
+<div id="tab-crew" class="section">
+  <div class="info-banner">
+    🙋 Sign up below to donate cash, sponsor a meal's groceries, or bring food if you're on-site for a shift.
+  </div>
+  <div class="section-title">Parent Contributions</div>
+  <div id="contributors-list"></div>
+
+  <div class="contributor-card">
+    <h3>Sign Me Up</h3>
+    <div class="add-contributor">
+      <input type="text" id="new-contrib-name" placeholder="Your name">
+      <select id="new-contrib-role">
+        <option value="">Select your contribution...</option>
+        <option value="donate">💵 Donate cash toward groceries</option>
+        <option value="sponsor">🛒 Sponsor a meal (pay for groceries)</option>
+        <option value="bring">🍕 Bring the food (on-site for a shift)</option>
+      </select>
+      <input type="text" id="new-contrib-note" placeholder="Note (optional — e.g. which meal, shift dates)">
+      <button onclick="addContributor()">Add Me to the List</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLAIM MODAL -->
+<div class="modal-overlay" id="claim-modal">
+  <div class="modal">
+    <h3>Claim This Item</h3>
+    <input type="text" id="claim-name-input" placeholder="Your name" maxlength="40">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeClaimModal()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmClaim()">Claim It ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- DATE MODAL -->
+<div class="modal-overlay date-modal" id="date-modal">
+  <div class="modal">
+    <h3>Assign a Date</h3>
+    <input type="date" id="date-input" min="2026-06-06" max="2026-06-12">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeDateModal()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmDate()">Set Date</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const DEFAULT_STATE = {
+  meals: [
+    {
+      id: 'm1',
+      name: '🍕 Pizza Night',
+      date: '2026-06-06',
+      items: [
+        { id: 'i1', name: 'Order pizzas (2-3 large per group)', claimed: false, claimer: '' },
+        { id: 'i2', name: 'Paper plates & napkins', claimed: false, claimer: '' },
+        { id: 'i3', name: 'Red pepper flakes & parmesan', claimed: false, claimer: '' },
+        { id: 'i4', name: 'Sodas / drinks for the night', claimed: false, claimer: '' },
+      ]
+    },
+    {
+      id: 'm2',
+      name: '🍝 Pasta Night',
+      date: '',
+      items: [
+        { id: 'i5', name: 'Penne or spaghetti (4 lbs)', claimed: false, claimer: '' },
+        { id: 'i6', name: 'Marinara sauce (jarred, 3-4 jars)', claimed: false, claimer: '' },
+        { id: 'i7', name: 'Ground beef or Italian sausage (3 lbs)', claimed: false, claimer: '' },
+        { id: 'i8', name: 'Garlic bread (4 loaves)', claimed: false, claimer: '' },
+        { id: 'i9', name: 'Parmesan cheese (shaker)', claimed: false, claimer: '' },
+        { id: 'i10', name: 'Salad mix & dressing', claimed: false, claimer: '' },
+      ]
+    },
+    {
+      id: 'm3',
+      name: '🍔 Hot Dogs & Burgers Night',
+      date: '',
+      items: [
+        { id: 'i11', name: 'Ground beef patties (4 lbs)', claimed: false, claimer: '' },
+        { id: 'i12', name: 'Hot dogs (2 packs)', claimed: false, claimer: '' },
+        { id: 'i13', name: 'Burger buns (2 packs)', claimed: false, claimer: '' },
+        { id: 'i14', name: 'Hot dog buns (2 packs)', claimed: false, claimer: '' },
+        { id: 'i15', name: 'American cheese slices', claimed: false, claimer: '' },
+        { id: 'i16', name: 'Lettuce, tomato, onion', claimed: false, claimer: '' },
+      ]
+    },
+    {
+      id: 'm4',
+      name: '🌮 Taco Night',
+      date: '',
+      items: [
+        { id: 'i17', name: 'Ground beef or chicken (4 lbs)', claimed: false, claimer: '' },
+        { id: 'i18', name: 'Taco shells & flour tortillas', claimed: false, claimer: '' },
+        { id: 'i19', name: 'Taco seasoning (3 packets)', claimed: false, claimer: '' },
+        { id: 'i20', name: 'Shredded cheese (2 bags)', claimed: false, claimer: '' },
+        { id: 'i21', name: 'Sour cream, salsa, guacamole', claimed: false, claimer: '' },
+        { id: 'i22', name: 'Shredded lettuce & diced tomato', claimed: false, claimer: '' },
+      ]
+    },
+    {
+      id: 'm5',
+      name: '🍗 Grill Night',
+      date: '',
+      items: [
+        { id: 'i23', name: 'Chicken thighs or breasts (5 lbs)', claimed: false, claimer: '' },
+        { id: 'i24', name: 'BBQ sauce (2 bottles)', claimed: false, claimer: '' },
+        { id: 'i25', name: 'Corn on the cob (16 ears)', claimed: false, claimer: '' },
+        { id: 'i26', name: 'Baked beans (3 cans)', claimed: false, claimer: '' },
+        { id: 'i27', name: 'Coleslaw mix & dressing', claimed: false, claimer: '' },
+      ]
+    },
+    {
+      id: 'm6',
+      name: '🥞 Breakfast for Dinner',
+      date: '',
+      items: [
+        { id: 'i28', name: 'Pancake mix (2 large boxes)', claimed: false, claimer: '' },
+        { id: 'i29', name: 'Eggs (3 dozen)', claimed: false, claimer: '' },
+        { id: 'i30', name: 'Bacon (3 lbs)', claimed: false, claimer: '' },
+        { id: 'i31', name: 'Maple syrup (2 bottles)', claimed: false, claimer: '' },
+        { id: 'i32', name: 'Butter (2 sticks)', claimed: false, claimer: '' },
+        { id: 'i33', name: 'OJ / orange juice (2 jugs)', claimed: false, claimer: '' },
+      ]
+    },
+  ],
+  supplies: [
+    { id: 's1', name: 'Ketchup (large)', claimed: false, claimer: '' },
+    { id: 's2', name: 'Mustard (large)', claimed: false, claimer: '' },
+    { id: 's3', name: 'Mayonnaise (large)', claimed: false, claimer: '' },
+    { id: 's4', name: 'Hot sauce (e.g. Frank\'s)', claimed: false, claimer: '' },
+    { id: 's5', name: 'Salt & pepper shakers', claimed: false, claimer: '' },
+    { id: 's6', name: 'Old Bay seasoning', claimed: false, claimer: '' },
+    { id: 's7', name: 'Garlic powder', claimed: false, claimer: '' },
+    { id: 's8', name: 'Olive oil (bottle)', claimed: false, claimer: '' },
+    { id: 's9', name: 'Paper plates (large pack)', claimed: false, claimer: '' },
+    { id: 's10', name: 'Paper bowls (large pack)', claimed: false, claimer: '' },
+    { id: 's11', name: 'Plastic cups (large pack)', claimed: false, claimer: '' },
+    { id: 's12', name: 'Plastic utensils (large pack)', claimed: false, claimer: '' },
+    { id: 's13', name: 'Paper towels (6 rolls)', claimed: false, claimer: '' },
+    { id: 's14', name: 'Trash bags (large, 1 box)', claimed: false, claimer: '' },
+    { id: 's15', name: 'Aluminum foil', claimed: false, claimer: '' },
+    { id: 's16', name: 'Gallon zip-lock bags', claimed: false, claimer: '' },
+    { id: 's17', name: 'Dish soap & sponge', claimed: false, claimer: '' },
+    { id: 's18', name: 'Sunscreen (community supply)', claimed: false, claimer: '' },
+    { id: 's19', name: 'Charcoal (if grilling)', claimed: false, claimer: '' },
+    { id: 's20', name: 'Lighter / lighter fluid', claimed: false, claimer: '' },
+    { id: 's21', name: 'Water bottles / cases of water', claimed: false, claimer: '' },
+    { id: 's22', name: 'Gatorade / sports drinks', claimed: false, claimer: '' },
+    { id: 's23', name: 'Snacks (chips, pretzels, etc.)', claimed: false, claimer: '' },
+    { id: 's24', name: 'Breakfast items (cereal, bread, PB&J)', claimed: false, claimer: '' },
+  ],
+  contributors: []
+};
+
+// ─── STORAGE ─────────────────────────────────────────────────────────────────
+let state;
+
+async function loadState() {
+  try {
+    const result = await window.storage.get('beachweek2026');
+    if (result && result.value) {
+      state = JSON.parse(result.value);
+    } else {
+      state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      await saveState();
+    }
+  } catch(e) {
+    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  }
+  render();
+}
+
+async function saveState() {
+  try {
+    await window.storage.set('beachweek2026', JSON.stringify(state));
+  } catch(e) {
+    console.warn('Storage save failed', e);
+  }
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function uid() {
+  return 'x' + Math.random().toString(36).substr(2, 9);
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Date TBD';
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function render() {
+  renderMeals();
+  renderSupplies();
+  renderContributors();
+}
+
+function renderMeals() {
+  const container = document.getElementById('meals-list');
+  container.innerHTML = '';
+  if (!state.meals.length) {
+    container.innerHTML = '<div class="empty-state">No meals yet. Add one below!</div>';
+    return;
+  }
+  state.meals.forEach(meal => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const dateBadgeClass = meal.date ? 'date-badge' : 'date-badge tbd';
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-title"><span class="emoji"></span><span>${meal.name}</span></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="${dateBadgeClass}" onclick="openDateModal('${meal.id}')">${formatDate(meal.date)}</span>
+          <button class="delete-meal-btn" onclick="deleteMeal('${meal.id}')" title="Remove meal">✕</button>
+        </div>
+      </div>
+      <div class="items-list" id="meal-items-${meal.id}"></div>
+      <div class="add-item-row">
+        <input type="text" id="new-item-${meal.id}" placeholder="Add an item..." onkeydown="if(event.key==='Enter')addMealItem('${meal.id}')">
+        <button onclick="addMealItem('${meal.id}')">Add</button>
+      </div>
+    `;
+    container.appendChild(card);
+    renderMealItems(meal);
+  });
+}
+
+function renderMealItems(meal) {
+  const list = document.getElementById('meal-items-' + meal.id);
+  if (!list) return;
+  list.innerHTML = '';
+  if (!meal.items.length) {
+    list.innerHTML = '<div style="padding:8px 0;color:var(--text-muted);font-size:0.82rem;font-style:italic;">No items yet — add some below.</div>';
+    return;
+  }
+  meal.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    if (item.claimed) {
+      row.innerHTML = `
+        <span class="item-name claimed">${item.name}</span>
+        <span class="claimer-name">✓ ${item.claimer}</span>
+        <button class="claim-btn claimed-btn">Claimed</button>
+      `;
+    } else {
+      row.innerHTML = `
+        <span class="item-name">${item.name}</span>
+        <button class="claim-btn" onclick="openClaimModal('meal','${meal.id}','${item.id}')">Claim It</button>
+      `;
+    }
+    list.appendChild(row);
+  });
+}
+
+function renderSupplies() {
+  const container = document.getElementById('supplies-list');
+  container.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'card';
+  const itemsDiv = document.createElement('div');
+  itemsDiv.className = 'items-list';
+  state.supplies.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    if (item.claimed) {
+      row.innerHTML = `
+        <span class="item-name claimed">${item.name}</span>
+        <span class="claimer-name">✓ ${item.claimer}</span>
+        <button class="claim-btn claimed-btn">Claimed</button>
+      `;
+    } else {
+      row.innerHTML = `
+        <span class="item-name">${item.name}</span>
+        <button class="claim-btn" onclick="openClaimModal('supply',null,'${item.id}')">Claim It</button>
+      `;
+    }
+    itemsDiv.appendChild(row);
+  });
+  const addRow = document.createElement('div');
+  addRow.className = 'add-item-row';
+  addRow.innerHTML = `
+    <input type="text" id="new-supply-item" placeholder="Add a supply item..." onkeydown="if(event.key==='Enter')addSupplyItem()">
+    <button onclick="addSupplyItem()">Add</button>
+  `;
+  card.appendChild(itemsDiv);
+  card.appendChild(addRow);
+  container.appendChild(card);
+}
+
+function renderContributors() {
+  const container = document.getElementById('contributors-list');
+  container.innerHTML = '';
+  if (!state.contributors.length) {
+    container.innerHTML = '<div class="empty-state" style="margin-bottom:14px;">No one signed up yet. Be the first!</div>';
+    return;
+  }
+  const card = document.createElement('div');
+  card.className = 'contributor-card';
+  card.innerHTML = '<h3>Who\'s In 🙌</h3>';
+  const list = document.createElement('div');
+  list.className = 'contributor-list';
+  state.contributors.forEach(c => {
+    const roleLabels = {
+      donate: { label: '💵 Donating Cash', cls: 'role-donate' },
+      sponsor: { label: '🛒 Sponsoring a Meal', cls: 'role-sponsor' },
+      bring: { label: '🍕 Bringing Food', cls: 'role-bring' },
+    };
+    const role = roleLabels[c.role] || { label: c.role, cls: 'role-donate' };
+    const row = document.createElement('div');
+    row.className = 'contributor-row';
+    row.innerHTML = `
+      <div>
+        <div class="contributor-name">${c.name}</div>
+        ${c.note ? `<div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">${c.note}</div>` : ''}
+      </div>
+      <span class="contributor-role ${role.cls}">${role.label}</span>
+    `;
+    list.appendChild(row);
+  });
+  card.appendChild(list);
+  container.appendChild(card);
+}
+
+// ─── ACTIONS ──────────────────────────────────────────────────────────────────
+function addMeal() {
+  const input = document.getElementById('new-meal-name');
+  const name = input.value.trim();
+  if (!name) return;
+  state.meals.push({ id: uid(), name, date: '', items: [] });
+  input.value = '';
+  saveState();
+  renderMeals();
+}
+
+function deleteMeal(mealId) {
+  if (!confirm('Remove this meal from the plan?')) return;
+  state.meals = state.meals.filter(m => m.id !== mealId);
+  saveState();
+  renderMeals();
+}
+
+function addMealItem(mealId) {
+  const input = document.getElementById('new-item-' + mealId);
+  const name = input.value.trim();
+  if (!name) return;
+  const meal = state.meals.find(m => m.id === mealId);
+  if (!meal) return;
+  meal.items.push({ id: uid(), name, claimed: false, claimer: '' });
+  input.value = '';
+  saveState();
+  renderMealItems(meal);
+}
+
+function addSupplyItem() {
+  const input = document.getElementById('new-supply-item');
+  const name = input.value.trim();
+  if (!name) return;
+  state.supplies.push({ id: uid(), name, claimed: false, claimer: '' });
+  input.value = '';
+  saveState();
+  renderSupplies();
+}
+
+function addContributor() {
+  const name = document.getElementById('new-contrib-name').value.trim();
+  const role = document.getElementById('new-contrib-role').value;
+  const note = document.getElementById('new-contrib-note').value.trim();
+  if (!name || !role) { alert('Please enter your name and select a contribution type.'); return; }
+  state.contributors.push({ id: uid(), name, role, note });
+  document.getElementById('new-contrib-name').value = '';
+  document.getElementById('new-contrib-role').value = '';
+  document.getElementById('new-contrib-note').value = '';
+  saveState();
+  renderContributors();
+}
+
+// ─── CLAIM MODAL ─────────────────────────────────────────────────────────────
+let pendingClaim = null;
+
+function openClaimModal(type, mealId, itemId) {
+  pendingClaim = { type, mealId, itemId };
+  document.getElementById('claim-name-input').value = '';
+  document.getElementById('claim-modal').classList.add('open');
+  setTimeout(() => document.getElementById('claim-name-input').focus(), 100);
+}
+
+function closeClaimModal() {
+  pendingClaim = null;
+  document.getElementById('claim-modal').classList.remove('open');
+}
+
+function confirmClaim() {
+  const name = document.getElementById('claim-name-input').value.trim();
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!pendingClaim) return;
+  const { type, mealId, itemId } = pendingClaim;
+  if (type === 'meal') {
+    const meal = state.meals.find(m => m.id === mealId);
+    const item = meal && meal.items.find(i => i.id === itemId);
+    if (item) { item.claimed = true; item.claimer = name; }
+  } else {
+    const item = state.supplies.find(i => i.id === itemId);
+    if (item) { item.claimed = true; item.claimer = name; }
+  }
+  closeClaimModal();
+  saveState();
+  render();
+}
+
+// ─── DATE MODAL ──────────────────────────────────────────────────────────────
+let pendingDateMealId = null;
+
+function openDateModal(mealId) {
+  pendingDateMealId = mealId;
+  const meal = state.meals.find(m => m.id === mealId);
+  document.getElementById('date-input').value = meal && meal.date ? meal.date : '';
+  document.getElementById('date-modal').classList.add('open');
+}
+
+function closeDateModal() {
+  pendingDateMealId = null;
+  document.getElementById('date-modal').classList.remove('open');
+}
+
+function confirmDate() {
+  const val = document.getElementById('date-input').value;
+  if (!val) { closeDateModal(); return; }
+  const meal = state.meals.find(m => m.id === pendingDateMealId);
+  if (meal) { meal.date = val; }
+  closeDateModal();
+  saveState();
+  renderMeals();
+}
+
+// close modals on overlay click
+document.getElementById('claim-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeClaimModal();
+});
+document.getElementById('date-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeDateModal();
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+loadState();
+</script>
+</body>
+</html>
